@@ -1,4 +1,6 @@
 from data import data
+from data.data import message_for_driver
+from utils import retrieve_code
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,11 +10,7 @@ class UrbanRoutesPage:
     to_field = (By.ID, 'to')
     #1 LOCALIZAR ELEMENTOS
     #CREAR VARIABLE = TIPO DE SELECTOR + DONDE Y COMO LOCALIZAR
-    optimo_button = (By.CSS_SELECTOR, '.modes-container .mode:nth-child(1)')
 
-    #PREUBAS DE PROYECTO PEDIR TAXI
-    # FLASH BUTTON
-    flash_button = (By.XPATH, '//div[@class="mode" and text()="Flash"]')
     # BOTON PEDIR TAXI
     taxi_button = (By.XPATH, '//button[@class="button round" and text()="Pedir un taxi"]')
     # BOTON CONFORT
@@ -39,12 +37,15 @@ class UrbanRoutesPage:
     pp_value = (By.CLASS_NAME, "pp-value-text")
 
     #AÑADIR MENSAJE
-    message_for_driver = (By.ID, 'message')
+    message_input = (By.ID, 'comment')
 
     blanket_and_tissues_option = (By.CSS_SELECTOR, '.reqs-body > div:nth-child(1) > div > div.r-sw > div > span')
+
     ice_cream_add_button = (By.CSS_SELECTOR,'.r-group-items > div:nth-child(1) > div > div.r-counter > div > div.counter-plus')
     ice_cream_counter = (By.CSS_SELECTOR, '.counter-value')
+
     submit_button = (By.CSS_SELECTOR, '.smart-button-wrapper > button')
+
     taxi_seeker_modal = (By.CSS_SELECTOR, '.order.shown > div.order-body')
     driver_info = (By.CSS_SELECTOR,'.order-subbody > div.order-buttons > div:nth-child(1) > div.order-button > img')
 
@@ -75,17 +76,6 @@ class UrbanRoutesPage:
         self.set_from(from_address)
         self.set_to(to_address)
 
-# LO QUE HACE MI ELEMENTO
-    def get_optimo_button(self):
-        return self.wait.until (EC.element_to_be_clickable(self.optimo_button))
-    def click_optimo_button(self):
-        self.get_optimo_button().click()
-
-    #Flash button
-    def get_flash_button(self):
-        return self.wait.until (EC.element_to_be_clickable(self.flash_button))
-    def click_flash_button(self):
-        self.get_flash_button().click()
 
     #TAXI BUTTON
     def get_taxi_button(self):
@@ -107,17 +97,16 @@ class UrbanRoutesPage:
 
 #CAMPO NUMERO DE TELEFONO VENTANA EMERGENTE
     def enter_phone_number(self):
-        WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(self.phone_input)).click()
+        #WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(self.phone_input)).click()
         WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(self.phone_field)).send_keys(data.phone_number)
         self.driver.find_element(*self.next_button).click()
-        phone_code_helper = retrieve_phone_code(self.driver)
-        code = phone_code_helper.get_sms_code(self.driver)
+        code = retrieve_code.retrieve_phone_code(self.driver)
         #WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.code_field)).send_keys(code)
         WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located(self.code_field))
         self.driver.find_element(*self.code_field).send_keys(code)
         self.driver.find_element(*self.confirm_button).click()
     def is_phone_input_filled_correctly(self):
-        return self.driver.find_element(*self.phone_field).get_property('checked')
+        return self.driver.find_element(*self.phone_field).get_property('value')
 
 #AÑADIR FORMA DE PAGO(TARJETA)
     def add_credit_card(self, number, cvv):
@@ -139,11 +128,16 @@ class UrbanRoutesPage:
         return self.driver.find_element(*self.pp_value).text
 
     #AÑDIR MENSAJE
-    def message_for_driver(self):
+    def write_driver_message(self, message):
         message_box = self.wait.until(EC.presence_of_element_located(self.message_input))
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", message_box)
         message_box.clear()
         message_box.send_keys(message)
+
+    def is_message_sent(self, expected_message):
+        message_input = self.driver.find_element(*self.message_input)
+        return expected_message in message_input.get_attribute("value")
+
 
     def toggle_blanket_and_tissues(self):
         option = self.wait.until(EC.element_to_be_clickable(self.blanket_and_tissues_option))
@@ -178,9 +172,7 @@ class UrbanRoutesPage:
         return driver_img.is_displayed()
 
     def wait_for_driver_info(self, timeout=20):
-        driver_img = WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located(self.driver_info)
-        )
+        driver_img = WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(self.driver_info))
         return driver_img.is_displayed()
 
 
