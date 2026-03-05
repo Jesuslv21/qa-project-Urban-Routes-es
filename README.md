@@ -1,62 +1,184 @@
-URBAN ROUTES 🚕 Proyecto 9
+# 🚕 Urban Routes – Web Test Automation Project
 
-Este proyecto automatiza una serie de pruebas funcionales sobre el sitio web de Urban Routes, una aplicación de solicitud de transporte. La automatización fue realizada utilizando Selenium WebDriver, Pytest
-
-📌 ¿Qué pruebas automatiza?
-
-El proyecto realiza las siguientes acciones de forma automática:
-
-Configura una dirección de origen y destino.
-Selecciona la tarifa "Comfort".
-Ingresa un número de teléfono.
-Ingresa el código SMS recibido.
-Agrega una tarjeta de crédito.
-Escribe un mensaje personalizado para el conductor.
-Solicita manta y pañuelos.
-Pide dos helados.
-Confirma el viaje y espera a que aparezca la información del conductor.
-
-🧩 Estructura del proyecto
+<img width="1536" height="1024" alt="ChatGPT Image 4 mar 2026, 06_45_04 p m" src="https://github.com/user-attachments/assets/b9a7a828-16f2-458f-9a38-07ad7ba5221e" />
 
 
-qa-project-urban-routes-es/
+
+## 📌 Project Overview
+
+This repository contains the **Web Test Automation process** performed for Urban Routes, a ride-hailing web application.
+
+The project automates a complete end-to-end user flow using **Selenium WebDriver** and **pytest**, validating core booking functionality and user interactions within the platform.
+
+The main objective was to automate functional testing scenarios while applying structured test design principles and the Page Object Model (POM).
+
+---
+
+## 🎯 Project Goals
+
+- Automate end-to-end ride booking flow  
+- Validate UI elements and user interactions  
+- Handle dynamic content using explicit waits  
+- Integrate SMS code retrieval via API  
+- Apply Page Object Model for maintainability  
+- Execute structured automated tests using pytest  
+
+---
+
+## 🛠 Tech Stack
+
+- **Language:** Python  
+- **Automation Tool:** Selenium WebDriver  
+- **Testing Framework:** pytest  
+- **Design Pattern:** Page Object Model (POM)  
+- **Browser:** Google Chrome  
+- **Wait Strategy:** WebDriverWait (Explicit Waits)  
+
+---
+
+## 📁 Project Structure
+
+```
+qa-project-urban-routes/
 │
-├── Data.py                                 # Datos como URL base, número de teléfono, tarjeta, etc.
-├── Retrieve_Code.py                        # API para obtener el código SMS
-├── Urban_Routes_Tests.py                   # Archivo principal con pruebas estructuradas en Pytest
-├── Urban_Routes_Page.py                    # Dependencias del proyecto
+├── data.py
+├── retrieve_code.py
+├── urban_routes_page.py
+├── urban_routes_tests.py
+└── README.md
+```
 
-⚙️ Requisitos
+---
 
-Python 3.9+
-Google Chrome instalado
-ChromeDriver (compatible con tu versión de Chrome)
-📦 Instalación
+## 🧪 Automated Test Flow
 
-Clona el repositorio:
+The automated script performs the following actions:
 
-git clone https://github.com/tu-usuario/qa-project-urban-routes-es.git
-cd qa-project-urban-routes-es
-Crea y activa un entorno virtual (opcional pero recomendado)**:
+1. Set origin and destination addresses  
+2. Select the **Comfort** fare  
+3. Enter a phone number  
+4. Retrieve and enter the SMS verification code  
+5. Add a credit card  
+6. Write a custom message to the driver  
+7. Request blanket and tissues  
+8. Order two ice creams  
+9. Confirm the ride  
+10. Wait until driver information appears  
 
+This validates the complete booking workflow from start to confirmation.
+
+---
+
+## 🔎 Testing Approach
+
+### 🧩 Page Object Model (POM)
+
+- UI elements and methods are separated into `urban_routes_page.py`
+- Improves readability and maintainability
+- Encourages scalable automation structure
+
+---
+
+### ⏳ Explicit Wait Strategy
+
+- Implemented using `WebDriverWait`
+- Avoids unstable `time.sleep()` usage
+- Handles dynamic loading elements properly
+
+---
+
+### 🔐 SMS Code Retrieval
+
+- SMS verification code is retrieved using an API helper (`retrieve_code.py`)
+- Enables fully automated authentication process
+
+---
+
+## ⚙️ Requirements
+
+- Python 3.9+  
+- Google Chrome installed  
+- ChromeDriver (compatible with your Chrome version)  
+
+---
+
+## 📦 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/qa-project-urban-routes.git
+cd qa-project-urban-routes
+```
+
+(Optional) Create and activate a virtual environment:
+
+```bash
 python -m venv .venv
-.venv\Scripts\activate   # En Windows
-Instala las dependencias:
+.venv\Scripts\activate   # Mac
+```
 
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
-▶️ Cómo ejecutar las pruebas
+```
 
-Desde la terminal (dentro del proyecto):
+---
 
+## ▶️ Running the Tests
+
+From the project directory:
+
+```bash
 pytest urban_routes_tests.py
-O bien, desde PyCharm puedes hacer clic derecho sobre urban_routes_tests.py y seleccionar "Run 'pytest in urban_routes_tests.py'".
+```
 
-NO OLVIDES ACTUALIZAR EL URL EN data.py con el generado por servidor en la plataforma de TripleTen en la práctica, de otra forma, no correrá el script.
+Or run directly from PyCharm by right-clicking on:
 
-🧪 Tecnologías y herramientas usadas
+```
+urban_routes_tests.py → Run 'pytest in urban_routes_tests.py'
+```
 
-Python
-Selenium WebDriver
-Pytest
-WebDriverWait (esperas explícitas, evitando time.sleep)
-Page Object Model
+---
+
+## ⚠️ Important Note
+
+Make sure to update the base URL in `data.py` with the server-generated URL provided in the platform before running the tests.
+
+If the URL is not updated, the automation script will not execute correctly.
+
+---
+
+## 📊 Results
+
+- Complete ride booking flow automated  
+- SMS verification integrated into automation  
+- Dynamic content handled using explicit waits  
+- Stable execution without hard-coded delays  
+- Structured and maintainable test architecture  
+
+---
+
+## 🚀 Skills Demonstrated
+
+- Web Automation with Selenium  
+- End-to-End Test Automation  
+- pytest Framework Usage  
+- Page Object Model Implementation  
+- Explicit Wait Handling  
+- API Integration for Authentication  
+- UI Element Interaction  
+- Test Structure & Maintainability  
+
+---
+
+## 📌 Conclusion
+
+This project demonstrates my ability to:
+
+- Design and implement structured web automation  
+- Automate complex user workflows  
+- Apply scalable test architecture (POM)  
+- Integrate API logic into UI automation  
+- Deliver stable and maintainable automated tests  
